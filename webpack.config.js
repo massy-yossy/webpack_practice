@@ -1,4 +1,9 @@
+//パスの指定
 const path = require('path')
+//cssのプラグイン
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 
 module.exports = {
     entry: './src/index.js',
@@ -12,7 +17,8 @@ module.exports = {
                 test: /\.css/, //.cssというファイル名を検知する
                 use: [
                     {
-                        loader: 'style-loader', //ローダーは下から読み込まれる
+                        //ローダーは下から読み込まれる, style-loaderの代わりにMiniCssExtractPluginのローダーを使用
+                        loader: MiniCssExtractPlugin.loader,
                     },
                     {
                         loader: 'css-loader', //.cssというファイルがあれば、css-loaderを使用するというルール
@@ -21,4 +27,10 @@ module.exports = {
             },
         ],
     },
+    plugins: [
+        new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',// このhtmlにビルドされたファイルが読み込まれる
+        })
+    ]
 }
