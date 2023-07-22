@@ -14,8 +14,8 @@ module.exports = {
     },
     module: { //モジュールというオブジェクトの中に
         rules: [ //rulesというオプションの配列がある
-            {
-                test: /\.css/, //.cssというファイル名を検知する
+            { //オブジェクト単位でルールを記載する
+                test: /\.css/, //.cssというファイル名を検知する～ここからCSSのルール～
                 use: [
                     {
                         //ローダーは下から読み込まれる, style-loaderの代わりにMiniCssExtractPluginのローダーを使用
@@ -23,6 +23,18 @@ module.exports = {
                     },
                     {
                         loader: 'css-loader', //.cssというファイルがあれば、css-loaderを使用するというルール
+                    },
+                ],
+            },
+            {//ここから画像読み込み用のルールを記載
+                test: /\.(png|jpg)/, //　\.png|\.jpgでも良い
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            esModule: false,
+                            name: 'images/[name].[ext]', //ファイル名を指定extはエクステンションの略
+                        }
                     },
                 ],
             },
