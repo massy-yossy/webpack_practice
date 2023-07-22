@@ -28,14 +28,18 @@ module.exports = {
             },
             {//ここから画像読み込み用のルールを記載
                 test: /\.(png|jpg)/, //　\.png|\.jpgでも良い
+                type: 'asset/resource', //asset用
+                generator: { //asset用
+                    filename: 'images/[name][ext]', //asset用extの前に.は必要なし
+                },
                 use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            esModule: false,
-                            name: 'images/[name].[ext]', //ファイル名を指定extはエクステンションの略
-                        }
-                    },
+                    // { webpack5からは必要なし
+                    //     loader: 'file-loader',
+                    //     options: {
+                    //         esModule: false,
+                    //         name: 'images/[name].[ext]', //ファイル名を指定extはエクステンションの略
+                    //     }
+                    // },
                 ],
             },
         ],
