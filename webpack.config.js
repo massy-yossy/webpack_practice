@@ -42,6 +42,20 @@ module.exports = {
                     // },
                 ],
             },
+            { //ここからpug用の設定
+                test: /\.pug/,
+                use:[ //使用するloaderを記載下から読み込まれる
+                    {
+                        loader: 'html-loader',
+                    },
+                    {
+                        loader: 'pug-html-loader',
+                        options:{
+                            pretty: true, //人間の目に見えやすくビルドするため
+                        }
+                    },
+                ],
+            },
         ],
     },
     plugins: [
@@ -49,7 +63,12 @@ module.exports = {
             filename: "./css/main.css", //build時のファイル名の指定
         }),
         new HtmlWebpackPlugin({ // HTMLを生成するプラグイン
-            template: './src/templates/index.html',// このhtmlにビルドされたファイルが読み込まれる
+            template: './src/templates/index.pug',// ここに指定したファイルが読み込まれる
+            filename: 'index.html', //filenameは出力先の名前を指定
+        }),
+        new HtmlWebpackPlugin({ // HTMLを生成するプラグイン
+            template: './src/templates/access.pug',// このhtmlにビルドされたファイルが読み込まれる
+            filename: 'access.html' //filenameは出力先の名前を指定
         }),
         new CleanWebpackPlugin(), // distフォルダの中の不要なファイルを削除するプラグイン
     ]
