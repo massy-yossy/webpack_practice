@@ -7,6 +7,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 
 module.exports = {
+    mode: 'development', //本番にビルドする→production 開発用→development
+    devtool: 'source-map', //そのままコンパイルされる
     entry: './src/js/main.js',
     output: {
         path: path.resolve(__dirname, "./dist"), //絶対パスを指定
@@ -17,6 +19,31 @@ module.exports = {
     },
     module: { //モジュールというオブジェクトの中に
         rules: [ //rulesというオプションの配列がある
+            {
+                test: /\.(ts|tsx)/, //typescript用のルールを設定
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'ts-loader',
+                    },
+                ],
+            },
+            {
+                test: /\.js/, //js用のルール
+                exclude: /node_modules/, //node_modulesは除外する
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                //0.25%以上シェアされて、サポートを受けているブラウザが読み込めるようにトランスパイルされる
+                                ['@babel/preset-env', { 'targets': '> 0.25%, not dead' }],
+                                '@babel/preset-react'
+                            ],
+                        },
+                    },
+                ],
+            },
             { //オブジェクト単位でルールを記載する
                 test: /\.(css|sass|scss)/, //.css,sass,scssというファイル名を検知する～ここからCSSのルール～
                 use: [
@@ -26,19 +53,31 @@ module.exports = {
                     },
                     {
                         loader: 'css-loader', //.cssというファイルがあれば、css-loaderを使用するというルール
+                        options: {
+                            sourceMap: false //ソースマップ作成はtrue・ファイルサイズが重くなるので本番環境ではオフ(false)にする
+                        }
                     },
                     {
-                        loader : 'sass-loader', //sass用のローダー
+                        loader: 'sass-loader', //sass用のローダー
                     },
                 ],
             },
             {//ここから画像読み込み用のルールを記載
-                test: /\.(png|jpg)/, //　\.png|\.jpgでも良い
+                test: /\.(png|jpg|jpeg)/, //　\.png|\.jpgでも良い
                 type: 'asset/resource', //asset用
                 generator: { //asset用
                     filename: 'images/[name][ext]', //asset用extの前に.は必要なし
                 },
                 use: [
+                    {
+                        loader: "image-webpack-loader", //画像圧縮用のローダー
+                        options: { //圧縮のクオリティのオプション
+                            mozjpeg: {
+                                progressive: true,
+                                quality: 65
+                            }
+                        },
+                    }
                     // { webpack5からは必要なし
                     //     loader: 'file-loader',
                     //     options: {
