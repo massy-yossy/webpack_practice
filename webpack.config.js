@@ -12,10 +12,13 @@ module.exports = {
         path: path.resolve(__dirname, "./dist"), //絶対パスを指定
         filename: './js/main.js', //distのファイル名を変更する
     },
+    devServer: { //webpack-dev-serverのLive Reloade機能を使うための設定これを書かないとhot reloadされない
+        static: path.resolve(__dirname, 'src')
+    },
     module: { //モジュールというオブジェクトの中に
         rules: [ //rulesというオプションの配列がある
             { //オブジェクト単位でルールを記載する
-                test: /\.css/, //.cssというファイル名を検知する～ここからCSSのルール～
+                test: /\.(css|sass|scss)/, //.css,sass,scssというファイル名を検知する～ここからCSSのルール～
                 use: [
                     {
                         //ローダーは下から読み込まれる, style-loaderの代わりにMiniCssExtractPluginのローダーを使用
@@ -23,6 +26,9 @@ module.exports = {
                     },
                     {
                         loader: 'css-loader', //.cssというファイルがあれば、css-loaderを使用するというルール
+                    },
+                    {
+                        loader : 'sass-loader', //sass用のローダー
                     },
                 ],
             },
@@ -44,13 +50,13 @@ module.exports = {
             },
             { //ここからpug用の設定
                 test: /\.pug/,
-                use:[ //使用するloaderを記載下から読み込まれる
+                use: [ //使用するloaderを記載下から読み込まれる
                     {
                         loader: 'html-loader',
                     },
                     {
                         loader: 'pug-html-loader',
-                        options:{
+                        options: {
                             pretty: true, //人間の目に見えやすくビルドするため
                         }
                     },
@@ -69,6 +75,10 @@ module.exports = {
         new HtmlWebpackPlugin({ // HTMLを生成するプラグイン
             template: './src/templates/access.pug',// このhtmlにビルドされたファイルが読み込まれる
             filename: 'access.html' //filenameは出力先の名前を指定
+        }),
+        new HtmlWebpackPlugin({ // HTMLを生成するプラグイン
+            template: './src/templates/members/taro.pug',// このhtmlにビルドされたファイルが読み込まれる
+            filename: 'members/taro.html' //filenameは出力先の名前を指定
         }),
         new CleanWebpackPlugin(), // distフォルダの中の不要なファイルを削除するプラグイン
     ]

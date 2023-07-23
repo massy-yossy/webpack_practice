@@ -1,7 +1,26 @@
-/*!********************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/main.css ***!
-  \********************************************************************/
-body{
-    color:red;
+/*!************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/css/main.scss ***!
+  \************************************************************************************************************/
+.footer {
+  background-color: 0;
 }
 
+body {
+  color: blue;
+}
+
+body {
+  color: orange;
+}
+body h1 {
+  margin-bottom: 20px;
+}
+
+.title, .content .title {
+  color: red;
+  font-size: 18px;
+}
+
+.content .title {
+  color: aqua;
+}
