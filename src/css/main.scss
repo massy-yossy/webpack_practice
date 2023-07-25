@@ -1,29 +1,48 @@
 @use './footer.scss';
+@use './menu.scss'; //アンダースコアなしでもOK！
 
-body{
-    color:blue;
-}
-// 変数
-$text-color: orange;
-//mixin
-@mixin set-margin($direction, $value){
-    margin-#{$direction}: $value;
-}
-body{
-    color: $text-color;
-    h1{
-        @include set-margin(bottom, 20px)
-    }
+
+html,body,div,h1,h2,h3,h4,h5 {
+    box-sizing: border-box;
 }
 
-.title{
-    color: red;
-    font-size: 18px;
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    font-family: sans-serif;
 }
-.content{
-    .title{
-        //@extendでコピーできる
-        @extend .title;
-        color: aqua;
-    }
+
+h1{
+    font-size: 2em;
+}
+
+.container{
+    width: 980px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0.5em;
+}
+
+.main-image{
+    background-image: url(../images/naiture.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    width: 100%;
+    height: 600px;
+    border-radius: 2em;
+    margin: 1em 0;
+}
+
+$icon-size: 64px;
+.icon{
+    width: $icon-size;
+    height: $icon-size;
+    border-radius: 50%;
+    padding: 4px;
+    position: absolute;
+    top: 1em;
+    left: 1em;
 }
