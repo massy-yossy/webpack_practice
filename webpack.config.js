@@ -12,7 +12,7 @@ module.exports = {
     entry: './src/js/main.js',
     output: {
         path: path.resolve(__dirname, "./dist"), //絶対パスを指定
-        filename: './js/main.js', //distのファイル名を変更する
+        filename: './js/[name]-[contenthash].js', //distのファイル名を変更する
     },
     devServer: { //webpack-dev-serverのLive Reloade機能を使うための設定これを書かないとhot reloadされない
         static: path.resolve(__dirname, 'src')
@@ -66,7 +66,7 @@ module.exports = {
                 test: /\.(png|jpg|jpeg)/, //　\.png|\.jpgでも良い
                 type: 'asset/resource', //asset用
                 generator: { //asset用
-                    filename: 'images/[name][ext]', //asset用extの前に.は必要なし
+                    filename: 'images/[name]-[contenthash][ext]', //asset用extの前に.は必要なし
                 },
                 use: [
                     {
@@ -105,7 +105,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({//cssを別ファイルにするプラグイン
-            filename: "./css/main.css", //build時のファイル名の指定
+            filename: "./css/[name]-[contenthash].css", //build時のファイル名の指定
         }),
         new HtmlWebpackPlugin({ // HTMLを生成するプラグイン
             template: './src/templates/index.pug',// ここに指定したファイルが読み込まれる
